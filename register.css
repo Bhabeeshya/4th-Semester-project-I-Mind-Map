@@ -1,0 +1,134 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('png.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: max-content;
+    
+  }
+  
+  .container {
+    height: 600px;
+    width: 100%;
+    /* background-color:#e3dfd0; */
+    border: 2px solid #e3dfd0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-bottom-style: solid;
+    border-bottom-width: thick;
+    border-bottom-color: #4a8ccc;
+
+    
+
+  }
+  .container img{
+    position:absolute;
+    top: 0px;
+    height: 777px;
+    width: auto;
+    z-index: 0;
+  }
+  
+  .header {
+    border-top-color: #4a8ccc;
+    border-top-style: solid;
+    border-top-width: thick;
+    border-bottom-color: #4a8ccc;
+    border-bottom-style: solid;
+    border-bottom-width: thick;
+
+    display: flex;
+    justify-content: center;
+    background-color: #e3dfd0;
+    /* #E5E3D4; */
+    height: 60px;
+    text-align: center;
+    padding: 10px 20px;
+  }
+  .logo{
+    position: relative;
+    top: 15px;
+    right: 50px;
+  }
+  .header h1{
+    color: #243642;
+  }
+  
+  /* .header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: bold;
+    color: #2f2f2f;
+  }
+  
+  .header .icon {
+    font-size: 36px;
+    color: #2f2f2f;
+    position: absolute;
+    
+  }
+   */
+  .content {
+    /* background: url('https://via.placeholder.com/500x300.png?text=Brain+Image') no-repeat center;
+    background-size: cover; */
+    background: transparent;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  .login-form {
+    margin-top: 60px;
+    background-color: #d2f1e1;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+  }
+  
+  
+  .login-form label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    display: block;
+    color: #2f2f2f;
+  }
+  
+  .login-form input {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .login-form button {
+    background-color: #5b9bd5;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-form button:hover {
+    background-color: #4a8ccc;
+  }
+  .text{
+    color: #5b9bd5;
+    text-decoration: underline;
+    font-size: 10px;
+  }
+ 
