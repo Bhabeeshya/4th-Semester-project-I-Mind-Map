@@ -68,7 +68,7 @@
 <body>
     <div class="container">
         <h1>Anxiety Assessment</h1>
-        <form id="anxietyForm" action="./anxietyback.php" method="post">
+        <form id="anxietyForm" onsubmit="handleSubmit(event)">
             <table>
                 <thead>
                     <tr>
@@ -83,8 +83,7 @@
                     <!-- Dynamically generated rows -->
                 </tbody>
             </table>
-            <input type="hidden" id="finalScore" name="score" value="">
-            <button type="button" class="btn" onclick="calculateScore()">Submit</button>
+            <button type="submit" class="btn">Submit</button>
         </form>
         <div id="ranges" class="ranges">
             Score Ranges:<br>
@@ -138,7 +137,11 @@
             tbody.appendChild(row);
         });
 
-        function calculateScore() {
+        function handleSubmit(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const form = document.getElementById("anxietyForm");
+            const formData = new FormData(form);
             let score = 0;
             let unanswered = false;
 
@@ -167,17 +170,27 @@
                 return;
             }
 
-            resultDiv.style.color = "#333";
-            if (score <= 21) {
-                resultDiv.textContent = `Your score is ${score}. This indicates low anxiety.`;
-            } else if (score <= 35) {
-                resultDiv.textContent = `Your score is ${score}. This indicates moderate anxiety.`;
+            let resultText;
+            if (score <= 10) {
+                resultText = "Normal ups and downs.";
+            } else if (score <= 16) {
+                resultText = "Mild mood disturbance.";
+            } else if (score <= 20) {
+                resultText = "Borderline clinical depression.";
+            } else if (score <= 30) {
+                resultText = "Moderate depression.";
+            } else if (score <= 40) {
+                resultText = "Severe depression.";
             } else {
-                resultDiv.textContent = `Your score is ${score}. This indicates potentially concerning levels of anxiety.`;
+                resultText = "Extreme depression.";
             }
 
-            document.getElementById("finalScore").value = score;
-            document.getElementById("anxietyForm").submit();
+            resultDiv.textContent = `Your score: ${score} - ${resultText}`;
+
+           
+            setTimeout(() => {
+                window.location.href = "depression.php";
+            }, 2000);
         }
     </script>
 </body>
