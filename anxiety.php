@@ -52,19 +52,23 @@
         .btn:hover {
             background-color: #0056b3;
         }
-        .result {
+        .result, .ranges {
             margin-top: 20px;
             text-align: center;
             font-size: 18px;
-            font-weight: bold;
             color: #333;
+        }
+        .ranges {
+            font-weight: normal;
+            font-size: 16px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Anxiety Assessment</h1>
-        <form id="anxietyForm">
+        <form id="anxietyForm" action="./anxietyback.php" method="post">
             <table>
                 <thead>
                     <tr>
@@ -79,16 +83,21 @@
                     <!-- Dynamically generated rows -->
                 </tbody>
             </table>
+            <input type="hidden" id="finalScore" name="score" value="">
             <button type="button" class="btn" onclick="calculateScore()">Submit</button>
         </form>
+        <div id="ranges" class="ranges">
+            Score Ranges:<br>
+            0-21: Low Anxiety<br>
+            22-35: Moderate Anxiety<br>
+            36 and above: Potentially Concerning Levels of Anxiety
+        </div>
         <div id="result" class="result"></div>
     </div>
 
     <script>
         const symptoms = [
-            "Numbness or tingling",
             "Feeling hot",
-            "Wobbliness in legs",
             "Unable to relax",
             "Fear of worst happening",
             "Dizzy or lightheaded",
@@ -105,8 +114,6 @@
             "Scared",
             "Indigestion",
             "Faint / lightheaded",
-            "Face flushed",
-            "Hot / cold sweats",
         ];
 
         const tbody = document.querySelector("tbody");
@@ -138,12 +145,15 @@
             symptoms.forEach((_, index) => {
                 const radios = document.getElementsByName(`q${index}`);
                 let selected = false;
-                radios.forEach((radio) => {
-                    if (radio.checked) {
-                        score += parseInt(radio.value);
+                
+                for (let i = 0; i < radios.length; i++) {
+                    if (radios[i].checked) {
+                        score += parseInt(radios[i].value);
                         selected = true;
+                        break;
                     }
-                });
+                }
+
                 if (!selected) {
                     unanswered = true;
                 }
@@ -153,9 +163,11 @@
 
             if (unanswered) {
                 resultDiv.textContent = "Please answer all questions before submitting.";
+                resultDiv.style.color = "red";
                 return;
             }
 
+            resultDiv.style.color = "#333";
             if (score <= 21) {
                 resultDiv.textContent = `Your score is ${score}. This indicates low anxiety.`;
             } else if (score <= 35) {
@@ -163,6 +175,9 @@
             } else {
                 resultDiv.textContent = `Your score is ${score}. This indicates potentially concerning levels of anxiety.`;
             }
+
+            document.getElementById("finalScore").value = score;
+            document.getElementById("anxietyForm").submit();
         }
     </script>
 </body>

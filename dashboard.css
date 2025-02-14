@@ -105,6 +105,7 @@ header {
     font-size: 14px;
 }
 
+
 .card button:hover {
     background-color: #2b5b69;
 }
@@ -118,98 +119,3 @@ footer {
     font-size: 14px;
 }
 
-/* body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f5ece1;
-    color: #333;
-}
-
-header {
-    background-color: #e3dfd0;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 3px solid #427b8e;
-}
-
-header h1 {
-    color: #427b8e;
-    font-size: 24px;
-    margin: 0;
-}
-
-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: 15px;
-}
-
-nav ul li {
-    display: inline;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #427b8e;
-    font-weight: bold;
-}
-
-nav ul li a:hover {
-    color: #2b5b69;
-}
-
-.main {
-    padding: 20px;
-}
-
-.dashboard-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 20px;
-}
-
-.card {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    text-align: center;
-}
-
-.card h2 {
-    color: #427b8e;
-    margin-bottom: 10px;
-}
-
-.card p {
-    margin: 10px 0;
-}
-
-.card button {
-    padding: 10px 15px;
-    background-color: #427b8e;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.card button:hover {
-    background-color: #2b5b69;
-}
-
-footer {
-    background-color: #427b8e;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    margin-top: 20px;
-    font-size: 14px;
-} */

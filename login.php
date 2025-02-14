@@ -27,6 +27,12 @@ if (isset($_SESSION['errors'])) {
     <div class="content">
         <!-- <img src="mental health images.jpg" alt=""> -->
         <div class="login-form" style="margin-top: -30px;">
+        <?php
+            if (isset($_SESSION['msg'])) {
+                echo '<p class="message" style="color:green;">' . htmlspecialchars($_SESSION['msg']) . '</p>';
+                unset($_SESSION['msg']);
+            }
+            ?>
       <form action="./loginbackend.php" method="post">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" placeholder="Enter username">

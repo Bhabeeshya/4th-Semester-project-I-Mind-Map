@@ -1,89 +1,79 @@
 <?php
 session_start();
-// Database connection
-$con = mysqli_connect('localhost', 'root', '', 'mindmapproject');
-if (!$con) {
-    // $_SESSION['msg'] = "Registration Failed: Unable to connect to database.";
-    // header('Location: register.php');
-    // exit();
-    echo "failed";
+$isValid = true;
+
+// Clear previous errors
+$_SESSION['errors'] = [];
+$Name = $_POST['Name'];
+$Username = $_POST['Username'];
+$Email = $_POST['Email'];
+$Password = $_POST['Password'];
+$PhoneNumber = $_POST['PhoneNumber'];
+
+// Validate Name
+if (!preg_match("/^[a-zA-Z ]+$/", $Name)) {
+    $_SESSION['NameError'] = "Invalid Name.";
+    $isValid = false;
 }
 
-// Collect data from form
-$name = $_POST['Name'];
-$username = $_POST['Username'];
-$password = $_POST['Password'];
-$email = $_POST['Email'];
-$phone_number = $_POST['PhoneNumber'];
-
-// Initialize an array to hold error messages
-$errors = [];
-
-// Name validation
-if (empty($name)) {
-    array_push($errors, "Full Name is required.");
-} elseif (!preg_match("/^[a-zA-Z\s]+$/", $name)) {
-    array_push($errors, "Full Name should only contain letters and spaces.");
-}
-//Username validation
-if (empty($username)) {
-    array_push($errors, "Username is required.");
-} elseif (!preg_match("/^[a-zA-Z0-9_]+$/", $username)) {
-    array_push($errors, "Username should only contain letters, numbers, and underscores.");
-} elseif (strlen($username) < 3 || strlen($username) > 15) {
-    array_push($errors, "Username must be between 3 and 15 characters long.");
+// Validate Username
+if (!preg_match("/^[a-zA-Z0-9]+$/", $Username)) {
+    $_SESSION['UsernameError'] = "Invalid Username.";
+    $isValid = false;
 }
 
-// Password validation
-if (empty($password)) {
-    array_push($errors, "Password is required.");
-} elseif (strlen($password) < 6) {
-    array_push($errors, "Password must be at least 6 characters long.");
+// Validate Email
+if (!filter_var($Email, FILTER_VALIDATE_EMAIL)) {
+    $_SESSION['EmailError'] = "Invalid email address.";
+    $isValid = false;
 }
-// Email validation
-if (empty($email)) {
-    array_push($errors, "Email is required.");
-} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    array_push($errors, "Invalid email format.");
-}
-// Phone validation
-if (empty($phone_number)) {
-    array_push($errors, "Phone number is required.");
-} elseif (!preg_match("/^[0-9]{10}$/", $phone_number)) {
-    array_push($errors, "Invalid phone number. Must be 10 digits.");
-}
-// if (empty($phone_number)) {
-//     array_push($errors, "Phone number is required.");
-// } elseif (!preg_match("/^[0-9]{10}$/", $phone)) {
-//     array_push($errors, "Invalid phone number. Must be 10 digits.");
-// }
-// Insert data into the database
-if (empty($errors)) {
-$sql = "INSERT INTO registration(Name, Username, Password, Email, PhoneNumber) VALUES('$name','$username', '$password', '$email', '$phone_number')";
 
-if (mysqli_query($con, $sql)) {
-    // Redirect to login page after successful registration
-    header("Location: login.php");
-    exit();
+// Validate Password
+if (!preg_match("/^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{8,}$/", $Password)) {
+    $_SESSION['PasswordError'] = "Password must be at least 8 characters, include letters, numbers, and symbols.";
+    $isValid = false;
+}
+
+// Validate Phone Number
+if (!preg_match("/^9\d{9}$/", $PhoneNumber)) {
+    $_SESSION['PhoneNumberError'] = "Invalid phone number.";
+    $isValid = false;
+}
+
+if ($isValid) {
+    $con = mysqli_connect('localhost', 'root', '', 'mindmapproject');
+    if (!$con) {
+        $_SESSION['msg'] = "Database connection failed.";
+        header('Location: ./register.php');
+        exit();
+    }
+
+    // Check for existing email
+    $stmt = $con->prepare("SELECT * FROM registration WHERE Email = ?");
+    $stmt->bind_param("s", $Email);
+    $stmt->execute();
+    $emailCheckResult = $stmt->get_result();
+
+    if ($emailCheckResult->num_rows > 0) {
+        $_SESSION['msg'] = "Email already registered.";
+        header('Location: ./register.php');
+        exit();
+    }
+
+    // Insert into database using prepared statements
+    $stmt = $con->prepare("INSERT INTO registration (Name, Username, Email, Password, PhoneNumber) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $Name, $Username, $Email, $Password, $PhoneNumber);
+
+    if ($stmt->execute()) {
+        $_SESSION['msg'] = "Registration Successful!";
+        header("Location: ./login.php");
+    } else {
+        $_SESSION['msg'] = "Registration Failed: " . $stmt->error;
+        header('Location: ./register.php');
+    }
+    $stmt->close();
+    $con->close();
 } else {
-    echo "Error: " . mysqli_error($con);
-} 
-  // Close the connection
-  mysqli_close($con);
-}else {
-    // Store errors in session and redirect back to the registration page
-    session_start();
-    $_SESSION['errors'] = $errors;
-    header('Location: login.php');
-    exit();
+    header('Location: ./register.php');
 }
-// $res= (mysqli_query($con, $sql));
-// if(!$res) {
-//     $_SESSION['msg'] = "Registration Failed: " . mysqli_error($con);
-// } else {
-//     $_SESSION['msg'] = "Registration Successful!";
-// }
-
-// Redirect back to the registration page
-// header('Location: login.php');
 ?>

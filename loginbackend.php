@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </html>
 
   
-// session_start();
+<!-- // session_start();
 // $con = mysqli_connect('localhost', 'root', '', 'mindmapproject');  // Update credentials as per your setup
 
 // if (!$con) {
@@ -79,4 +79,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 //     } else {
 //         $_SESSION['msg'] = "Invalid email or password!";
 //     }
-// }
+// } -->
